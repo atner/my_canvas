@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>My canvas</title>
+  <meta charset="utf-8">
+  <script> 
+   window.onload = function() {
+    var drawingCanvas = document.getElementById('mycnv');
+    if(drawingCanvas && drawingCanvas.getContext) {
+     var context = drawingCanvas.getContext('2d');
+     
+	 // – рисуем окружность 
+     context.strokeStyle = "#000";
+     context.fillStyle = "#fc0";
+     context.beginPath();
+     context.arc(100,100,50,0,Math.PI*2,true);
+     context.closePath();
+     context.stroke();
+     context.fill();
+     // – рисуем левый глаз 
+     context.fillStyle = "#fff";
+     context.beginPath();
+     context.arc(84,90,8,0,Math.PI*2,true);
+     context.closePath();
+     context.stroke();
+     context.fill();
+     // – рисуем правый глаз 
+     context.beginPath();
+     context.arc(116,90,8,0,Math.PI*2,true);
+     context.closePath();
+     context.stroke();
+     context.fill();
+     // – рисуем рот
+     context.beginPath();
+     context.moveTo(70,115);
+     context.quadraticCurveTo(100,130,130,115);
+     context.quadraticCurveTo(100,150,70,115); 
+     context.closePath();
+     context.stroke();
+     context.fill();
+
+	//context.drawTo(context,100,100);
+		//context.moveTo(300,300);
+		//context.moveTo(270,315);
+		//context.quadraticCurveTo(400,430,430,415);
+
+		x = 400;
+		y = 200;
+		radius = 300;
+
+		// вызываем рисование солнышка
+		//drawSun(context);
+				
+		x = 400;
+		y = 400;
+		angle = 180;
+		
+		//кружок возле центра
+		for (a=1;a<360;a=a+15) {
+		drawTo2(context,2,a);
+		};
+		
+		drawCircle6(context);
+		
+		drawTree(context, 9,2);
+
+		
+		
+		context.stroke();
+		context.fill();
+			
+	 } else {
+	
+	}
+   }
+
+    // функция расчета координат по длине и углу от заданных X,Y;
+	function drawTo(context, length, angle) {
+		angle = angle + 90;
+		x1 = x + (Math.sin(angle*Math.PI/180)*length); 
+		y1 = y + (Math.cos(angle*Math.PI/180) *length); 
+		context.moveTo(x,y);
+		context.lineTo(x1,y1);
+	}
+
+	// функция расчета координат по длине и углу от заданных X,Y с возвращением новой координаты
+	function drawTo2(context, length, angle) {
+		//angle = angle + 90;
+		x1 = x + (Math.sin(angle*Math.PI/180)*length); 
+		y1 = y + (Math.cos(angle*Math.PI/180) *length); 
+		context.moveTo(x,y);
+		context.lineTo(x1,y1);
+		x = x1;
+		y = y1;
+	}
+	
+	// рисование солнышка
+	function drawSun(context) {
+		context.strokeStyle = '#D70A02';
+			for (q=0; q<360; q=q+2) {
+				drawTo(context,300,q);
+			};
+		};
+	// рисование кружка
+	function drawCircle6 (context) {
+		for(var i=0;i<6;i++){
+		context.fillStyle = 'rgb(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) +')';
+		context.beginPath();
+		context.arc(300,300,70,Math.PI/3*i,Math.PI/3*(i+1),false);
+		context.lineTo(300,300);
+		context.fill();
+		};
+	};
+	
+	
+	//функция рисования дерева
+	function drawTree(context,depth,branches) {
+	step=5;
+	if (depth>0) {
+			//выбрать цвет
+			context.strokeStyle = 'rgb(' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) + ',' + Math.round(Math.random()*255) +')';
+			drawTo2(context,step*depth,angle);
+			angle = angle + 40;
+			depth2 = depth;
+			for (a=0; a<=branches; a++) {
+				angle = angle - (180/branches);
+				drawTree(context,depth-1, branches);
+			};
+			angle = angle+50; 
+				drawTo2(context,step*depth,angle);
+
+			} else {
+			//alert ('no depth deifined');
+	};
+	};
+	
+	
+	
+	
+   </script>
+ </head>
+ <body>
+  
+  <canvas id="mycnv" width="800" height="600">
+    <p>¬аш браузер не поддерживает рисование.</p>
+  </canvas>
+ </body>
+</html>
